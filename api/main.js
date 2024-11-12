@@ -1,6 +1,7 @@
 const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
 const express = require("express");
+var cors = require("cors");
 
 (async () => {
   const db = await open({
@@ -12,11 +13,18 @@ const express = require("express");
   );
 
   const app = express();
+
+  app.use(cors());
   app.use(express.json());
+
   const port = 3000;
 
   app.get("/", (req, res) => {
     res.send("I'm working :)");
+  });
+
+  app.get("/", (req, res) => {
+    res.send("Hello World!");
   });
 
   app.post("/records", async (req, res) => {
