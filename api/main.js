@@ -23,10 +23,6 @@ var cors = require("cors");
     res.send("I'm working :)");
   });
 
-  app.get("/", (req, res) => {
-    res.send("Hello World!");
-  });
-
   app.post("/records", async (req, res) => {
     const { title, description } = req.body;
     const result = await db.run(
@@ -39,16 +35,6 @@ var cors = require("cors");
   app.get("/records", async (req, res) => {
     const records = await db.all(`SELECT * FROM records`);
     res.json(records);
-  });
-
-  app.delete("/records/:id", async (req, res) => {
-    const { id } = req.params;
-    const result = await db.run(`DELETE FROM records WHERE id = ?`, [id]);
-    if (result.changes > 0) {
-      res.send("Record deleted");
-    } else {
-      res.status(404).send("Record not found");
-    }
   });
 
   app.delete("/flush-all", async (req, res) => {
